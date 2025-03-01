@@ -11,13 +11,13 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 }
 
 export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
+	settings?: MyPluginSettings;
 
-	async onload() {
+	override async onload() {
 		await this.loadSettings();
 
 		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
+		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (_evt: MouseEvent) => {
 			// Called when the user clicks the icon.
 			new Notice('This is a notice!');
 		});
@@ -40,7 +40,7 @@ export default class MyPlugin extends Plugin {
 		this.addCommand({
 			id: 'sample-editor-command',
 			name: 'Sample editor command',
-			editorCallback: (editor: Editor, view: MarkdownView) => {
+			editorCallback: (editor: Editor, _view) => {
 				console.log(editor.getSelection());
 				editor.replaceSelection('Sample Editor Command');
 			}
@@ -75,10 +75,10 @@ export default class MyPlugin extends Plugin {
 		});
 
 		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
-		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
+		this.registerInterval(setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
 	}
 
-	onunload() {
+	override onunload() {
 
 	}
 
@@ -96,13 +96,13 @@ class SampleModal extends Modal {
 		super(app);
 	}
 
-	onOpen() {
-		const {contentEl} = this;
+	override onOpen() {
+		const { contentEl } = this;
 		contentEl.setText('Woah!');
 	}
 
-	onClose() {
-		const {contentEl} = this;
+	override onClose() {
+		const { contentEl } = this;
 		contentEl.empty();
 	}
 }
@@ -116,7 +116,7 @@ class SampleSettingTab extends PluginSettingTab {
 	}
 
 	display(): void {
-		const {containerEl} = this;
+		const { containerEl } = this;
 
 		containerEl.empty();
 
@@ -125,9 +125,9 @@ class SampleSettingTab extends PluginSettingTab {
 			.setDesc('It\'s a secret')
 			.addText(text => text
 				.setPlaceholder('Enter your secret')
-				.setValue(this.plugin.settings.mySetting)
+				.setValue(this.plugin.settings!.mySetting)
 				.onChange(async (value) => {
-					this.plugin.settings.mySetting = value;
+					this.plugin.settings!.mySetting = value;
 					await this.plugin.saveSettings();
 				}));
 	}
