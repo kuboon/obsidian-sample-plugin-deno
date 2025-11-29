@@ -1,8 +1,8 @@
 {
   "tasks": {
-    "dev": "deno run --allow-env --allow-read --allow-run esbuild.config.ts",
+    "dev": "deno run --allow-env --allow-read --allow-write --allow-run --allow-net=esm.sh esbuild.config.ts",
     "build": "deno task dev production",
-    "version": "deno run --allow-read=. --allow-write=versions.json version-bump.ts && git add manifest.json versions.json"
+    "version-bump": "deno run --allow-read=. --allow-write=versions.json version-bump.ts && git add manifest.json versions.json"
   },
   "compilerOptions": {
     "noImplicitAny": true,
@@ -25,9 +25,10 @@
     }
   },
   "imports": {
-    "@luca/esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@^0.11.1",
-    "builtin-modules": "npm:builtin-modules@3.3.0",
-    "esbuild": "npm:esbuild@^0.25.0",
-    "obsidian": "npm:obsidian@^1.8.7"
+    "@deno/esbuild-plugin": "jsr:@deno/esbuild-plugin@^1.2.0",
+    "@std/semver": "jsr:@std/semver@^1.0.7",
+    "builtin-modules": "npm:builtin-modules@5.0.0",
+    "esbuild": "npm:esbuild@^0.27.0",
+    "obsidian": "npm:obsidian@^1.10.3"
   }
 }

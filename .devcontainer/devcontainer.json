@@ -1,0 +1,17 @@
+{
+  "name": "Debian",
+  "image": "mcr.microsoft.com/devcontainers/base",
+  "features": {
+    "ghcr.io/devcontainers-community/features/deno:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "denoland.vscode-deno"
+      ],
+      "settings": {
+        "deno.enable": true
+      }
+    }
+  }
+}
